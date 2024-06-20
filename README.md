@@ -59,8 +59,6 @@ Make sure your system meets the following requirements before proceeding:
 - Google API Key: Obtain an Gemini API key for Google Generative AI.
 
 ### 3. Install Requirements
-You can install the project requirements from the `go.mod` file. Follow these steps:
-
 To initialize a `go.mod` file in a Go project, you need to use the go mod init command:
 
 ```bash
