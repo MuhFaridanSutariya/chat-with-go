@@ -61,6 +61,12 @@ Make sure your system meets the following requirements before proceeding:
 ### 3. Install Requirements
 You can install the project requirements from the `go.mod` file. Follow these steps:
 
+To initialize a `go.mod` file in a Go project, you need to use the go mod init command:
+
+```bash
+go mod init chatbot
+```
+
 **On Windows, macOS, and Linux:**
 navigate to the directory where the `go.mod` file is located. Then, enter the following command:
 ```bash
