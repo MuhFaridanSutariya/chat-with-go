@@ -37,3 +37,39 @@ Build a web-based chatbot interface that processes CSV files and generates respo
   - Go's built-in `net/http` package is used to run the web server.
   - Handles serving static files (HTML, CSS, JS) and API endpoints for file uploads and chat interactions.
 
+## How to run
+
+### 1. Clone this repository
+To get started, clone this repository into your local machine. Follow the instructions below:
+
+1. Open a terminal or Command Prompt.
+2. Change to the directory where you want to clone the repository.
+3. Enter the following command to clone the repository:
+   ```bash
+   git clone https://github.com/MuhFaridanSutariya/chat-with-go.git
+   ```
+4. Once the cloning process is complete, navigate into the cloned directory using the `cd` command:
+   ```bash
+   cd chat-with-go  
+   ```
+
+### 2. System Requirements
+Make sure your system meets the following requirements before proceeding:
+- Go is installed on your computer.
+- Google API Key: Obtain an Gemini API key for Google Generative AI.
+
+### 3. Install Requirements
+You can install the project requirements from the `go.mod` file. Follow these steps:
+
+**On Windows, macOS, and Linux:**
+navigate to the directory where the `go.mod` file is located. Then, enter the following command:
+```bash
+go mod tidy
+```
+This command will install all the required packages specified in the `go.mod` file 
+
+### 4. Run Go
+
+How to run Web App:
+
+``go run main.go``
