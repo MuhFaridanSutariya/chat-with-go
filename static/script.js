@@ -25,9 +25,10 @@ document.getElementById('uploadForm').addEventListener('submit', async function(
         uploadedFile = fileInput.files[0];
         chatContainer.style.display = 'flex';
         document.getElementById('uploadForm').style.display = 'none';
+        addMessageToChat('bot', 'Welcome! How can I assist you today?'); // Add welcome message
     } else {
         const errorText = await response.text();
-        alert(`Error: ${errorText}`);
+        addMessageToChat('bot', `Error: ${errorText}`); // Display error message in chat window
     }
 });
 
@@ -41,8 +42,17 @@ document.getElementById('chatForm').addEventListener('submit', async function(ev
     const userMessage = queryInput.value;
     addMessageToChat('user', userMessage);
 
-    // Show loading animation
-    loadingElement.style.display = 'block';
+    // Show typing indicator
+    const typingIndicator = document.createElement('div');
+    typingIndicator.classList.add('typing-indicator', 'bot');
+    typingIndicator.innerHTML = `
+        <img src="/assets/bot.png" alt="Bot">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+    `;
+    chatWindow.appendChild(typingIndicator);
+    chatWindow.scrollTop = chatWindow.scrollHeight;
 
     const formData = new FormData();
     formData.append('file', uploadedFile);
@@ -53,8 +63,8 @@ document.getElementById('chatForm').addEventListener('submit', async function(ev
         body: formData
     });
 
-    // Hide loading animation
-    loadingElement.style.display = 'none';
+    // Remove typing indicator
+    typingIndicator.remove();
 
     if (response.ok) {
         const data = await response.json();
@@ -69,10 +79,16 @@ document.getElementById('chatForm').addEventListener('submit', async function(ev
         addMessageToChat('bot', summaryText);
     } else {
         const errorText = await response.text();
-        alert(`Error: ${errorText}`);
+        addMessageToChat('bot', `Error: ${errorText}`); // Display error message in chat window
     }
 
     queryInput.value = '';
+});
+
+document.getElementById('clearChat').addEventListener('click', function() {
+    const chatWindow = document.getElementById('chatWindow');
+    chatWindow.innerHTML = '';
+    localStorage.removeItem('chatHistory'); // Clear chat history from local storage
 });
 
 function addMessageToChat(sender, message) {
@@ -90,9 +106,36 @@ function addMessageToChat(sender, message) {
     const text = document.createElement('p');
     text.textContent = message;
 
+    const timestamp = document.createElement('span');
+    timestamp.classList.add('timestamp');
+    const now = new Date();
+    timestamp.textContent = now.toLocaleTimeString();
+
     messageElement.appendChild(img);
     messageElement.appendChild(text);
+    messageElement.appendChild(timestamp);
 
     chatWindow.appendChild(messageElement);
     chatWindow.scrollTop = chatWindow.scrollHeight;
+
+    // Save chat history
+    saveChatHistory();
 }
+
+// Save chat history to local storage
+function saveChatHistory() {
+    const chatWindow = document.getElementById('chatWindow');
+    localStorage.setItem('chatHistory', chatWindow.innerHTML);
+}
+
+// Load chat history from local storage
+function loadChatHistory() {
+    const chatWindow = document.getElementById('chatWindow');
+    const chatHistory = localStorage.getItem('chatHistory');
+    if (chatHistory) {
+        chatWindow.innerHTML = chatHistory;
+    }
+}
+
+// Load chat history on page load
+window.onload = loadChatHistory;
